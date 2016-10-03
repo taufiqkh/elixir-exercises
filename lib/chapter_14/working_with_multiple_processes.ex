@@ -1,4 +1,6 @@
 defmodule WorkingWithMultipleProcesses do
+# Answers to initial exercises in chapter 14
+# Programming Elixir 1.2
   @moduledoc false
 
   def pmap(collection, fun) do
