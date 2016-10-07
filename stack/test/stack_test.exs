@@ -1,6 +1,6 @@
-defmodule SequenceTest do
+defmodule StackTest do
   use ExUnit.Case
-  doctest Sequence
+  doctest Stack
 
   test "the truth" do
     assert 1 + 1 == 2
