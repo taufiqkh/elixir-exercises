@@ -2,7 +2,9 @@ defmodule StackTest do
   use ExUnit.Case
   doctest Stack
 
-  test "the truth" do
-    assert 1 + 1 == 2
+  test "push and pop" do
+    item = 58
+    StackServer.push(item)
+    assert item == StackServer.pop
   end
 end
