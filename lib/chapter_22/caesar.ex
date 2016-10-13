@@ -8,7 +8,7 @@ defprotocol Caesar do
 end
 
 defimpl Caesar, for: [List, BitString] do
-  @num_letters ?z - ?a
+  @num_letters ?z - ?a + 1
   @offset ?a
   defp _encrypt(char, shift) do
     rem(char + shift - @offset, @num_letters) + @offset
@@ -28,4 +28,12 @@ defimpl Caesar, for: [List, BitString] do
   end
 
   def rot13(string), do: encrypt(string, 13)
+end
+
+defmodule RotWordCheck do
+  def word_check(string, path) do
+    File.stream!(path, [], :line)
+    |> Enum.map(&String.trim/1)
+    |> Enum.filter(&(String.length(&1) == String.length(string) && &1 == Caesar.rot13(string)))
+  end
 end
