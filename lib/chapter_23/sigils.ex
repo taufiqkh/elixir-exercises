@@ -5,10 +5,12 @@ defmodule Sigils do
 
     ## Example Usage:
     iex> ~v\"""
-    ...> 1,2
-    ...> test,bar,foo
+    ...> Item,Qty,Price
+    ...> foo,1,2
+    ...> bar,5.6,3.14
+    ...> baz,7.5,8
     ...> \"""
-    [["1", "2", "3"], ["test", "bar", "foo"]]
+    [[Item: "foo", Qty: 1.0, Price: 2.0], [Item: "bar", Qty: 5.6, Price: 3.14], [Item: "baz", Qty: 7.5, Price: 8.0]]
   """
   def sigil_v(lines, _opts) do
     lines |>
