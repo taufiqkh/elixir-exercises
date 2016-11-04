@@ -11,17 +11,37 @@ defmodule Sigils do
     [["1", "2", "3"], ["test", "bar", "foo"]]
   """
   def sigil_v(lines, _opts) do
-    lines |> String.trim |> String.split("\n", trim: true) |> _split_lines
+    lines |>
+      String.trim |>
+      String.split("\n", trim: true) |>
+      _split_header_lines
   end
 
-  defp _split_lines([]) do
+  defp _split_header_lines([]) do
     []
   end
-  defp _split_lines([line | rest] ) do
+  defp _split_header_lines([header_line | rest]) do
+    _split(header_line) |> _split_lines(rest)
+  end
+
+  defp _split(line) do
+    String.split(line, ",", trim: true)
+  end
+
+  defp _split_lines(headers, []) do
+    []
+  end
+  defp _split_lines(headers, [line | rest] ) do
     [
-      String.split(line, ",", trim: true) |> _autoconvert
-      | _split_lines(rest)
+      _head_line(headers, _split(line) |> _autoconvert)
+      | _split_lines(headers, rest)
     ]
+  end
+  defp _head_line([], []) do
+    []
+  end
+  defp _head_line([header | headers], [entry | rest]) do
+    [{String.to_atom(header), entry} | _head_line(headers, rest)]
   end
 
   defp _autoconvert([]) do
