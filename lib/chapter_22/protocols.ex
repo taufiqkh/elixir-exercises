@@ -56,3 +56,14 @@ defimpl EnumExt, for: Map do
     end
   end
 end
+
+defmodule TestStruct do
+  defstruct value: 0
+end
+
+defimpl Inspect, for: Any do
+  import Inspect.Algebra
+  def inspect(%{__struct__: name} = map, opts) do
+    concat(["%{__struct__:","}"])
+  end
+end
