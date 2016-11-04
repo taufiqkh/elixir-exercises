@@ -18,6 +18,22 @@ defmodule Sigils do
     []
   end
   defp _split_lines([line | rest] ) do
-    [String.split(line, ",", trim: true) | _split_lines(rest)]
+    [
+      String.split(line, ",", trim: true) |> _autoconvert
+      | _split_lines(rest)
+    ]
+  end
+
+  defp _autoconvert([]) do
+    []
+  end
+  defp _autoconvert([possible_float | rest]) do
+    [_autoconvert(possible_float) | _autoconvert(rest)]
+  end
+  defp _autoconvert(possible_float) do
+    case Float.parse(possible_float) do
+      {float, ""} -> float
+      _ -> possible_float
+    end
   end
 end
